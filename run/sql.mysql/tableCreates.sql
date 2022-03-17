@@ -1,9 +1,11 @@
 create table bmsql_config (
-  cfg_name    varchar(30) primary key,
+  id int not null auto_increment primary key,
+  cfg_name    varchar(30) unique key,
   cfg_value   varchar(50)
 );
 
 create table bmsql_warehouse (
+  id int not null auto_increment primary key,
   w_id        integer   not null,
   w_ytd       decimal(12,2),
   w_tax       decimal(4,4),
@@ -13,10 +15,11 @@ create table bmsql_warehouse (
   w_city      varchar(20),
   w_state     char(2),
   w_zip       char(9),
-  constraint pk_warehouse primary key (w_id)
+  constraint uk_warehouse unique key (w_id)
 );
 
 create table bmsql_district (
+  id int not null auto_increment primary key,
   d_w_id       integer       not null,
   d_id         integer       not null,
   d_ytd        decimal(12,2),
@@ -28,10 +31,11 @@ create table bmsql_district (
   d_city       varchar(20),
   d_state      char(2),
   d_zip        char(9),
-  constraint pk_district primary key (d_w_id, d_id)
+  constraint uk_district unique key (d_w_id, d_id)
 );
 
 create table bmsql_customer (
+  id int not null auto_increment primary key,
   c_w_id         integer        not null,
   c_d_id         integer        not null,
   c_id           integer        not null,
@@ -53,7 +57,7 @@ create table bmsql_customer (
   c_since        timestamp,
   c_middle       char(2),
   c_data         varchar(500),
-  constraint pk_customer primary key (c_w_id, c_d_id, c_id),
+  constraint uk_customer unique key (c_w_id, c_d_id, c_id),
   key bmsql_customer_idx1 (c_w_id, c_d_id, c_last, c_first)
 );
 
@@ -72,13 +76,15 @@ create table bmsql_history (
 );
 
 create table bmsql_new_order (
+  id int not null auto_increment primary key,
   no_w_id  integer   not null,
   no_d_id  integer   not null,
   no_o_id  integer   not null,
- constraint pk_new_order primary key (no_w_id, no_d_id, no_o_id)
+ constraint uk_new_order unique key (no_w_id, no_d_id, no_o_id)
 );
 
 create table bmsql_oorder (
+  id int not null auto_increment primary key,
   o_w_id       integer      not null,
   o_d_id       integer      not null,
   o_id         integer      not null,
@@ -87,11 +93,12 @@ create table bmsql_oorder (
   o_ol_cnt     integer,
   o_all_local  integer,
   o_entry_d    timestamp,
-  constraint pk_oorder primary key (o_w_id, o_d_id, o_id),
+  constraint uk_oorder unique key (o_w_id, o_d_id, o_id),
   constraint bmsql_oorder_idx1 unique key (o_w_id, o_d_id, o_c_id, o_id)
 );
 
 create table bmsql_order_line (
+  id int not null auto_increment primary key,
   ol_w_id         integer   not null,
   ol_d_id         integer   not null,
   ol_o_id         integer   not null,
@@ -102,19 +109,21 @@ create table bmsql_order_line (
   ol_supply_w_id  integer,
   ol_quantity     integer,
   ol_dist_info    char(24),
-  constraint pk_order_line primary key (ol_w_id, ol_d_id, ol_o_id, ol_number)
+  constraint uk_order_line unique key (ol_w_id, ol_d_id, ol_o_id, ol_number)
 );
 
 create table bmsql_item (
+  id int not null auto_increment primary key,
   i_id     integer      not null,
   i_name   varchar(24),
   i_price  decimal(5,2),
   i_data   varchar(50),
   i_im_id  integer,
-  constraint pk_item primary key (i_id)
+  constraint uk_item unique key (i_id)
 );
 
 create table bmsql_stock (
+  id int not null auto_increment primary key,
   s_w_id       integer       not null,
   s_i_id       integer       not null,
   s_quantity   integer,
@@ -132,6 +141,6 @@ create table bmsql_stock (
   s_dist_08    char(24),
   s_dist_09    char(24),
   s_dist_10    char(24),
-  constraint pk_stock primary key (s_w_id, s_i_id)
+  constraint uk_stock unique key (s_w_id, s_i_id)
 );
 
