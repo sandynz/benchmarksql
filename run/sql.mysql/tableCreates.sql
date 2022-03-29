@@ -1,11 +1,11 @@
 create table bmsql_config (
-  id int not null auto_increment primary key,
+  id bigint not null auto_increment primary key,
   cfg_name    varchar(30) unique key,
   cfg_value   varchar(50)
 );
 
 create table bmsql_warehouse (
-  id int not null auto_increment primary key,
+  id bigint not null auto_increment primary key,
   w_id        integer   not null,
   w_ytd       decimal(12,2),
   w_tax       decimal(4,4),
@@ -19,7 +19,7 @@ create table bmsql_warehouse (
 );
 
 create table bmsql_district (
-  id int not null auto_increment primary key,
+  id bigint not null auto_increment primary key,
   d_w_id       integer       not null,
   d_id         integer       not null,
   d_ytd        decimal(12,2),
@@ -35,7 +35,7 @@ create table bmsql_district (
 );
 
 create table bmsql_customer (
-  id int not null auto_increment primary key,
+  id bigint not null auto_increment primary key,
   c_w_id         integer        not null,
   c_d_id         integer        not null,
   c_id           integer        not null,
@@ -64,7 +64,8 @@ create table bmsql_customer (
 -- create sequence bmsql_hist_id_seq;
 
 create table bmsql_history (
-  hist_id  integer not null auto_increment  primary key,
+  id bigint not null auto_increment primary key,
+  hist_id  integer not null unique key,
   h_c_id   integer,
   h_c_d_id integer,
   h_c_w_id integer,
@@ -76,7 +77,7 @@ create table bmsql_history (
 );
 
 create table bmsql_new_order (
-  id int not null auto_increment primary key,
+  id bigint not null auto_increment primary key,
   no_w_id  integer   not null,
   no_d_id  integer   not null,
   no_o_id  integer   not null,
@@ -84,7 +85,7 @@ create table bmsql_new_order (
 );
 
 create table bmsql_oorder (
-  id int not null auto_increment primary key,
+  id bigint not null auto_increment primary key,
   o_w_id       integer      not null,
   o_d_id       integer      not null,
   o_id         integer      not null,
@@ -98,7 +99,7 @@ create table bmsql_oorder (
 );
 
 create table bmsql_order_line (
-  id int not null auto_increment primary key,
+  id bigint not null auto_increment primary key,
   ol_w_id         integer   not null,
   ol_d_id         integer   not null,
   ol_o_id         integer   not null,
@@ -113,7 +114,7 @@ create table bmsql_order_line (
 );
 
 create table bmsql_item (
-  id int not null auto_increment primary key,
+  id bigint not null auto_increment primary key,
   i_id     integer      not null,
   i_name   varchar(24),
   i_price  decimal(5,2),
@@ -123,7 +124,7 @@ create table bmsql_item (
 );
 
 create table bmsql_stock (
-  id int not null auto_increment primary key,
+  id bigint not null auto_increment primary key,
   s_w_id       integer       not null,
   s_i_id       integer       not null,
   s_quantity   integer,
